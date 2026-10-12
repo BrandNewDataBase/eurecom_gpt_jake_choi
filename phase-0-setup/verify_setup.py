@@ -51,8 +51,17 @@ def parse_gcloud_config(raw: str) -> dict:
     # TODO: parse `raw` as JSON and return {"account": ..., "project": ...}
     #       from the "core" section. Return empty strings if raw is empty or a
     #       field is missing.
-    raise NotImplementedError("Phase 0: implement parse_gcloud_config()")
 
+    if not raw.strip():
+        return {"account": "", "project": ""}
+
+    data = json.loads(raw)
+    core = data.get("core", {})
+
+    return {
+        "account": core.get("account", ""),
+        "project": core.get("project", "")
+    }
 
 def parse_repo_slug(remote_url: str) -> str:
     """Turn a GitHub remote URL into an ``owner/repo`` slug (no ``.git`` suffix).
@@ -69,8 +78,22 @@ def parse_repo_slug(remote_url: str) -> str:
     """
     # TODO: return "owner/repo" for both the HTTPS and SSH forms shown above.
     #       Strip any trailing ".git". Return "" if not a github.com URL.
-    raise NotImplementedError("Phase 0: implement parse_repo_slug()")
 
+    url = remote_url.strip()
+
+    if url.startswith("https://github.com/"):
+        slug = url.removeprefix("https://github.com/")
+    elif url.startswith("git@github.com:"):
+        slug = url.removeprefix("git@github.com:")
+    else:
+        return ""
+
+    slug = slug.removesuffix(".git").rstrip("/")
+
+    if len(slug.split("/")) != 2 or not all(slug.split("/")):
+        return ""
+
+    return slug
 
 # --------------------------------------------------------------------------- #
 # Provided probes (do not modify)
@@ -81,8 +104,7 @@ def check_python() -> dict:
         "version": f"{major}.{minor}.{micro}",
         "ok": env_checks.python_is_supported(),
     }
-
-
+    
 def check_environment() -> dict:
     """Record where this ran. Cloud Shell is the mandated dev environment; local is allowed."""
     return {"cloud_shell": env_checks.in_cloud_shell()}
