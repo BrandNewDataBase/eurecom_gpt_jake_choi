@@ -1,0 +1,30 @@
+{
+  "phase": "2",
+  "environment": {
+    "colab": true
+  },
+  "attention": {
+    "naive_ms": 393.482,
+    "vectorized_ms": 1.126,
+    "speedup": 349.45
+  },
+  "threads": {
+    "1": 2355.948,
+    "2": 2188.014,
+    "4": 2353.202,
+    "8": 2267.554
+  },
+  "devices": {
+    "cpu_ms": 409601.3,
+    "gpu_ms": 12836.5
+  },
+  "training": {
+    "steps": 2000,
+    "final_loss": 1.4353,
+    "param_count": 4935680
+  },
+  "sample": "\nTo sluckering and so presonmive a sake,\nWhich hath may Aland's shall graw the lady is\nFrom ofce histed's spoud meet succhase with tie ease\nHath i' recock of me with his mindly here\nUpon the bom; to ki",
+  "model": {
+    "gcs_url": "https://storage.googleapis.com/project-e5367152-a26b-4710-92a-eurecomgpt/model.safetensors"
+  }
+}
